@@ -4,7 +4,10 @@ var app = express();
 var Movie = require('./models/movieModel.js');
 var port = 3000;
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var db = mongoose.connect('mongodb://localhost/movies');
+
+app.use(bodyParser.json());
 
 movieRouter = require('./routes/movieRoutes.js')(Movie);
 
