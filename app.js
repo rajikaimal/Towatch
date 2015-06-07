@@ -7,13 +7,13 @@ var db = mongoose.connect('mongodb://localhost/mymovies');
 
 movieRouter = require('./routes/movieRoutes.js')(Movie);
 
+app.use(express.static(__dirname + "/public"));
 
 app.use('/Movies',movieRouter);
 
 app.get('/',function(req,res){
-	res.send('Hello');
+	res.render('index.html');
 });
-
 
 app.listen(port,function(req,res){
 	console.log("Listening on port " + port);

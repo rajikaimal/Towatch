@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="towatch">
+<head>
+	<title>ToWatch</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+</head>
+<body ng-controller="loadMovies">
+
+	<div class="panel panel-primary" ng-repeat="movie in movies" style="width:30%">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">{{ movie.title }}</h3>
+	    </div>
+	    <div class="panel-body">
+	        genre : {{ movie.genre }}
+	    </div>
+	</div>
+
+
+	<script type="text/javascript">
+		var towatch = angular.module('towatch',[]);
+
+		towatch.controller('loadMovies',function($scope,$http){
+			$http.get('/movies/myMovies').success(function(data){
+				console.log(data[0]['title']);
+				$scope.movies = data;
+			});
+		});
+	</script>
+	
+</body>
+</html>

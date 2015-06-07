@@ -13,6 +13,7 @@ var routes = function(Movie){
 				console.error(err);
 			else
 				res.json(movies);
+				
 		});
 	});
 
