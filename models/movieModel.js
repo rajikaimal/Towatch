@@ -7,6 +7,9 @@ var movieModel = new schema({
 	},
 	genre : {
 		type : String
+	},
+	watched : {
+		type : String
 	}
 });
 

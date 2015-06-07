@@ -1,9 +1,10 @@
+//'use strict'
 var express = require('express');
 var app = express();
 var Movie = require('./models/movieModel.js');
 var port = 3000;
 var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost/mymovies');
+var db = mongoose.connect('mongodb://localhost/movies');
 
 movieRouter = require('./routes/movieRoutes.js')(Movie);
 

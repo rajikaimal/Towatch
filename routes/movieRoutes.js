@@ -12,6 +12,7 @@ var routes = function(Movie){
 			if(err)
 				console.error(err);
 			else
+				console.log(movies);
 				res.json(movies);
 				
 		});
