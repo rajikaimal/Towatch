@@ -4,6 +4,7 @@
 	<title>ToWatch</title>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.css">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+	<script src="http://code.angularjs.org/1.2.2/angular-animate.min.js"></script>
 </head>
 <body ng-controller="loadMovies">
 	<h1>To-Watch</h1>
@@ -21,6 +22,7 @@
 	    <div class="panel-body">
 	        <label>genre : {{ movie.genre }} </label> <br>
 	        <label>watched : {{ movie.watched }} </label>
+	        <button class="btn btn-danger" ng-click="remove(movie._id)">Remove</button>
 	    </div>
 	</div>
 
@@ -29,9 +31,11 @@
 		var towatch = angular.module('towatch',[]);
 
 		towatch.controller('loadMovies',function($scope,$http){
+			if($scope.title == "" || $scope.genre == ""){
+				return false;
+			}
 			var refresh = function(){
 				$http.get('/movies/myMovies').success(function(data){
-					console.log(data[0]['title']);
 					$scope.movies = data;
 					$scope.title = "";
 					$scope.genre = "";
@@ -41,6 +45,11 @@
 			$scope.add = function(){
 				$http.post('/movies/myMovies', { title : $scope.title , genre : $scope.genre })
 					.success(refresh());
+			}
+			$scope.remove = function(id){
+				$http.post('/movies/myMovies/remove', { Id : id})
+					.success(refresh());
+
 			}
 
 		});

@@ -10,7 +10,7 @@ var routes = function(Movie){
 				genre : req.body.genre,
 				watched : 'No'
 			};
-			console.log(query);
+			//console.log(query);
 			var mov = new Movie(query);
 			mov.save();
 		})
@@ -22,12 +22,19 @@ var routes = function(Movie){
 				if(err)
 					console.error(err);
 				else
-					console.log(movies);
+					//console.log(movies);
 					res.json(movies);
 					
 			});
 	});
-
+	movieRouter.route('/myMovies/remove')
+		.post(function(req,res){
+			var id = req.body.Id;
+			Movie.findOne({ _id : id},function(err,movie){
+				movie.remove();
+				res.send('Done');
+			});
+		})
 	movieRouter.route('/myMovies/:title')
 		.get(function(req,res){
 			Movie.find({ title : req.params.title },function(err,movies){
