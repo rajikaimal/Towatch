@@ -1,5 +1,5 @@
 # Towatch
-Simplified web application for keeping track about the movies you watch
+<p>Simplified web application for keeping track about the movies you watch</p>
 [![node](https://img.shields.io/node/v/gh-badges.svg)]() 
 [![towatch](https://img.shields.io/badge/towatch-0.0.1-green.svg)]()
 <p> To deploy </p>
