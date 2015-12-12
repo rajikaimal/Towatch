@@ -17,7 +17,7 @@
 	<input type="submit" value="Add" class="btn btn-primary" ng-click="add()">
 	<div class="panel panel-primary" ng-repeat="movie in movies" style="width:30%">
 	    <div class="panel-heading">
-	        <h3 class="panel-title">{{ movie.title }}</h3>
+	        <h3 class="panel-title">{{ movie.name }}</h3>
 	    </div>
 	    <div class="panel-body">
 	        <label>genre : {{ movie.genre }} </label> <br>
@@ -35,8 +35,8 @@
 				return false;
 			}
 			var refresh = function(){
-				$http.get('/movies/myMovies').success(function(data){
-					$scope.movies = data;
+				$http.get('/graphql?query={movies{id,name,genre,watched}}').success(function(data){
+					$scope.movies = data.data.movies;
 					$scope.title = "";
 					$scope.genre = "";
 				});
