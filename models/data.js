@@ -1,9 +1,9 @@
-var movies = [
+var list = [
 	{
 		"id": 1,
 		"name": "Transformers",
 		"genre": "Action",
-		"watched": "true"
+		"watched": "false"
 	},
 	{
 		"id": 2,
@@ -19,4 +19,4 @@ var movies = [
 	}
 ];
 
-module.exports = movies;
+module.exports = list;
