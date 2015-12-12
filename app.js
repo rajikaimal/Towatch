@@ -16,6 +16,8 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
+app.use('/graphql', graphqlHTTP({ schema: schema, pretty: true }));
+
 movieRouter = require('./routes/movieRoutes.js')();
 
 app.use(express.static(__dirname + "/public"));
@@ -25,8 +27,6 @@ app.use('/Movies',movieRouter);
 app.get('/',function(req,res){
 	res.render('index.html');
 });
-
-app.use('/graphql', graphqlHTTP({ schema: schema, pretty: true }))
 
 app.listen(port,function(req,res){
 	console.log("Listening on port " + port);
