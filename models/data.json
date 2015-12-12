@@ -1,0 +1,20 @@
+{
+	"1": {
+		"id": 1,
+		"name": "Transformers",
+		"genre": "Action",
+		"watched": "false"
+	},
+	"2": {
+		"id": 2,
+		"name": "TMNT",
+		"genre": "Action",
+		"watched": "false"
+	},
+	"3": {
+		"id": 3,
+		"name": "Batman",
+		"genre": "Comic movie",
+		"watched": "false"
+	}
+}
