@@ -13,6 +13,7 @@ var routes = function(Movie){
 			//console.log(query);
 			var mov = new Movie(query);
 			mov.save();
+			res.status(204).send('Done');
 		})
 		.get(function(req,res){
 			if(req.query.genre || req.query.title){
@@ -32,7 +33,7 @@ var routes = function(Movie){
 			var id = req.body.Id;
 			Movie.findOne({ _id : id},function(err,movie){
 				movie.remove();
-				res.send('Done');
+				res.status(204).send('Done');
 			});
 		})
 	movieRouter.route('/myMovies/:title')
