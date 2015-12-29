@@ -10,27 +10,117 @@
 </head>
 <body>
 	<h1>To-Watch</h1>
-	<label>Movie-title : </label><input type="text" class="form-control">
-	<label>Genre : </label><select class="form-control">
-		<option>Action</option>
-		<option>Comedy</option>
-		<option>Romance</option>
-	</select>
-	<input type="submit" value="Add" class="btn btn-primary">
-	<div class="panel panel-primary" style="width:30%">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">{{ movie.title }}</h3>
-	    </div>
-	    <div class="panel-body">
-	        <label>genre : {{ movie.genre }} </label> <br>
-	        <label>watched : {{ movie.watched }} </label>
-	        <button class="btn btn-danger" >Remove</button>
-	    </div>
-	</div>
-
+	<div id="rendernode"></div>
 
 	<script type="text/babel">
-		
+		var App = React.createClass({
+			render: function() {
+				return (
+					<div>
+						<Moviecontainer />
+					</div>
+				);
+			}
+		});
+
+		var Moviecontainer = React.createClass({
+			getInitialState: function() {
+				return {
+					movies: []
+				};
+			},
+			componentDidMount: function() {
+				$.get('/movies/myMovies', function(response) {
+					this.setState({movies:response});
+				}.bind(this));
+			},
+			handleRemoveItem: function(movie) {
+				$.post('/Movies/myMovies/remove', {Id: movie.id}, function() {
+					$.get('/movies/myMovies', function(response) {
+						this.setState({movies:response});
+					}.bind(this));
+				}.bind(this));	
+			},
+			handleAddItem: function(newmovie) {
+				$.post('/movies/myMovies', {title: newmovie.title, genre: newmovie.genre}, function() {
+					$.get('/movies/myMovies', function(response) {
+						console.log(response);
+						this.setState({movies:response});
+					}.bind(this));
+				}.bind(this));
+			},
+			rendertowatch: function() {
+				return this.state.movies.map(function(item) {
+					return (<Moviestowatch key={item._id} removemovieitem={this.handleRemoveItem} id={item._id} title={item.title} genre={item.genre} watched={item.watched} />);
+				}.bind(this));
+			},
+			render: function() {
+				return (
+					<div>
+						<MovieInput addnewitem={this.handleAddItem} />
+						{this.rendertowatch()}
+					</div>
+				);
+			}
+		});
+
+		var MovieInput = React.createClass({
+			handleClick: function() {
+				var newmovietitle = this.refs.newmovietitle.value;
+				var newmoviegenre = this.refs.newmoviegenre.value;
+				
+				this.props.addnewitem({title: newmovietitle, genre: newmoviegenre});
+				this.refs.newmovietitle.value = "";
+				this.refs.newmoviegenre.value = "Action";
+			},
+			render: function() {
+				return (
+					<div>
+						<label>Movie-title : </label><input type="text" className="form-control" ref="newmovietitle"/>
+						<label>Genre : </label><select className="form-control" ref="newmoviegenre">
+							<option>Action</option>
+							<option>Comedy</option>
+							<option>Romance</option>
+						</select>
+						<input type="submit" value="Add" className="btn btn-primary" onClick={this.handleClick} />
+					</div>
+				);
+			}
+		});
+
+		var Moviestowatch = React.createClass({
+			removeItem: function() {
+				var id = this.props.id;
+				console.log('Click');
+				this.props.removemovieitem({id: id});
+				console.log(id);
+				
+			},
+			render: function() {
+				var containerStyle = {
+					width: "30%"
+				};
+				return (
+					<div>
+						<div className="panel panel-primary" style={containerStyle}>
+						    <div className="panel-heading">
+						        <h3 className="panel-title">{this.props.title}</h3>
+						    </div>
+						    <div className="panel-body">
+						        <label>genre : {this.props.genre} </label> <br />
+						        <label>watched : {this.props.watched} </label>
+						        <button className="btn btn-danger" onClick={this.removeItem}>Remove</button>
+						    </div>
+						</div>
+					</div>
+				);
+			}
+		});
+
+		ReactDOM.render(
+			<App />,
+			document.getElementById('rendernode')
+		);
 	</script>
 	
 </body>
